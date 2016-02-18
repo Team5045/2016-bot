@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='background.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='skeleton.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="section hero">
+        <div class="container">Team 5045 Driver Station</div>
+      </div>
+      <div class="section container main">
+        <div class="options">
+          <!--<button class="metal linear">↻ Restart</button>
+          <button class="metal linear">☠ Kill</button>-->
+          <button class="metal linear" id="yeeButton" tabindex="-1">ಠ◡ಠ</button>
+        </div>
+        <div class="row">
+            <div id="stream" class="two-thirds column stream">
+              <canvas></canvas>
+              <span class="fps-label"><span class="fps">0</span> fps</span>
+            </div>
+            <div id="robotStats" class="one-third column stats">
+              <h5>Robot stats</h5>
+              <div id="robotStatsInner"></div>
+            </div>
+            <div id="robotEditables" class="one-third column stats">
+              <h5>Robot settings</h5>
+              <div id="robotEditablesInner"></div>
+            </div>
+            <!-- <div id="autonSelect" class="one-half column stats">
+              <h5>Autonomous config</h5>
+              Select the desired autonomous mode.
+            </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      Powered by <a href="https://team5045.com">Team 5045</a>. Yeeeeeeee.
+    </div>
+    <video id="yee">
+        <source src="{{ url_for('static', filename='yee.mp4') }}" type="video/mp4">
+    </video>
+    <script src="{{ url_for('static', filename='jquery-2.1.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lodash.js') }}"></script>
+    <script src="{{ url_for('static', filename='socketio.js') }}"></script>
+    <script>
+      CAMERA_WIDTH = {{ width }};
+      CAMERA_HEIGHT = {{ height }};
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
