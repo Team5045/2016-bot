@@ -20,6 +20,7 @@ OI_OPERATOR_CONTROLLER = 1
 OI_INTAKE = 'right_trigger'
 OI_OUTTAKE = 'left_trigger'
 OI_SHOOT = 1  # "A" button
+OI_JUST_SHOOT = 2  # "B" button
 OI_TOGGLE_INTAKE = 'right_bumper'
 OI_TOGGLE_CAMERA = 'left_bumper'
 

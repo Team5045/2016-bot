@@ -19,7 +19,9 @@ class Shooter(Subsystem):
         self.shooter_motor.setInverted(False)
 
     def run(self, speed=1):
+        print('running shooter')
         self.shooter_motor.set(speed)
 
     def stop(self):
-        self.run(0)
+        print('stopping shooter')
+        self.shooter_motor.set(0)

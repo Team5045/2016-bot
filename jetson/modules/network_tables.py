@@ -86,7 +86,7 @@ class NetworkTables(object):
 
     def put_value(self, key, value, valueType='object'):
         formattedType = self.make_formatted_type(type(value), valueType)
-        print formattedType
+        # print formattedType
         # print key, value, formattedType
         if formattedType.lower() != 'object':
             getattr(self.sd, 'put' + formattedType)(key, value)

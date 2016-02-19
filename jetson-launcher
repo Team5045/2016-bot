@@ -1,0 +1,28 @@
+#! /bin/sh
+
+# File: /etc/init.d/jetson
+
+### BEGIN INIT INFO
+# Provides:          jetson
+# Short-Description: starts the jetson server
+### END INIT INFO
+
+DAEMON=/usr/bin/python
+DAEMON_OPTS="/home/ubuntu/jetson/server.py 80"
+NAME=jetson
+DESC="Jetson server"
+PID=/var/www/current/shared/pid/jetson.pid
+
+case $1 in
+  start)
+    echo -n "Starting $DESC: "
+    start-stop-daemon --start --pidfile "$PID" --start --exec "$DAEMON" -- $DAEMON_OPTS
+    echo "$NAME."
+    ;;
+  *)
+    echo "Usage: $NAME {start|stop|restart|reload}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0

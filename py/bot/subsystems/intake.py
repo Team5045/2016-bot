@@ -20,7 +20,7 @@ class Intake(Subsystem):
                                                   config.INTAKE_SOLENOID_BW)
 
         self.intake_motor = wpilib.Talon(config.INTAKE_MOTOR)
-        self.intake_motor.setInverted(False)
+        self.intake_motor.setInverted(True)
 
         self.boulder_limit_switch = wpilib.DigitalInput(
             config.INTAKE_LOADED_LIMIT_SWITCH)

@@ -12,8 +12,11 @@ class AutoChooser(Subsystem):
         self.robot = robot
         self.chooser = SendableChooser()
 
-        for Command in autonomous.auto_commands:
-            self.chooser.addObject(Command.nickname, Command(self.robot))
+        for i, Command in enumerate(autonomous.auto_commands):
+            if i == 0:
+                self.chooser.addDefault(Command.nickname, Command(self.robot))
+            else:
+                self.chooser.addObject(Command.nickname, Command(self.robot))
 
         self.robot.jetson.put_value(config.MISC_AUTO_COMMAND_DASHBOARD_KEY,
                                     self.chooser, 'data')

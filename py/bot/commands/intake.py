@@ -12,12 +12,13 @@ class Intake(Command):
         pass
 
     def execute(self):
+        print('running intake cmd')
         self.robot.intake.run()
 
     def isFinished(self):
         # Stop running intake once the boulder is loaded;
         # make sure we don't load more than one.
-        return self.robot.intake.has_boulder_loaded
+        return False  # self.robot.intake.has_boulder_loaded
 
     def end(self):
         self.robot.intake.stop()

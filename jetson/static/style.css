@@ -105,6 +105,10 @@ h5 {
     margin-left: 5px;
 }
 
+#robotEditablesInner select {
+    max-width: 95%;
+}
+
 #robotEditablesInner input:disabled, select:disabled {
     color: #ccc;
 }

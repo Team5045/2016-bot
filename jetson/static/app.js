@@ -114,9 +114,20 @@
         }
     }
 
+    // stop editables update from propagating while the driver
+    // is interacting with the dropdown menu. 
+    var isInteractingWithEditable = false;
+    $('#robotEditablesInner input, #robotEditablesInner select')
+        .on('mousedown focus', function () { isInteractingWithEditable = true; })
+        .on('blur', function () { isInteractingWithEditable = false; });
+
     function updateRobotEditables() {
         var $editables = $('#robotEditablesInner').empty(),
             alreadyHandled = {};
+
+        if (isInteractingWithEditable) {
+            setTimeout(updateRobotEditables, 500);
+        }
 
         _.forIn(robotEditables, function (value, key) {
             var keyParams = key.split('--'),

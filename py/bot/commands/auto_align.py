@@ -63,7 +63,10 @@ class AutoAlign(CommandGroup):
                 # right to account for that, and vice versa.
                 self.robot.drive_train.drive(skew * 0.2, abs(skew) / skew)
             else:
-                self.phase = 'centering-x'
+                # Right now this centering shit is jank af, let's just
+                # do the auto-align shizz
+                self.phase = 'skip-to-end'
+                # self.phase = 'centering-x'
 
         elif self.phase == 'centering-x':
             # Now that we're looking straight on at the target, we can see
@@ -98,6 +101,9 @@ class AutoAlign(CommandGroup):
                 self.robot.drive_train.drive(-off * 0.5, 0)
             else:
                 self.is_aligned = True
+
+        elif self.phase == 'skip-to-end':
+            self.is_aligned = True
 
     def execute(self):
         self.do_things(

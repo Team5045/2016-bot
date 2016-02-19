@@ -64,12 +64,10 @@ class DriveTrain(Subsystem):
         turn_radius = -controller.getRightX()
 
         # Invert direction if driver set
-        driver_direction = self.robot.jetson.get_value(
-            config.MISC_DRIVER_DIRECTION_DASHBOARD_KEY + '/selected',
-            valueType='String')
+        driver_direction = self.robot.driver_direction_chooser.get_selected()
         if driver_direction == 'intaking':
             speed = -speed
-            turn_radius = -turn_radius
+            # turn_radius = -turn_radius
 
         self.drive_train.setMaxOutput(config.DRIVE_MAX_SPEED)
         self.drive_train.arcadeDrive(speed, turn_radius, True)

@@ -11,7 +11,7 @@ from wpilib.buttons import JoystickButton
 from bot import config
 from bot.utils.buttoned_xbox_controller import ButtonedXboxController
 from bot.commands import intake, outtake, shoot, toggle_intake, \
-    toggle_driver_direction
+    toggle_driver_direction, just_shoot
 
 
 class OperatorInterface(object):
@@ -24,8 +24,8 @@ class OperatorInterface(object):
         self.drive_controller = ButtonedXboxController(
             config.OI_DRIVE_CONTROLLER)
 
-        self.operator_controller = ButtonedXboxController(
-            config.OI_OPERATOR_CONTROLLER)
+        # self.operator_controller = ButtonedXboxController(
+        #     config.OI_OPERATOR_CONTROLLER)
 
         # Command-level control; used for commands that are simply toggled.
 
@@ -38,11 +38,14 @@ class OperatorInterface(object):
         JoystickButton(self.drive_controller, config.OI_SHOOT) \
             .whenReleased(shoot.Shoot(self.robot))
 
+        JoystickButton(self.drive_controller, config.OI_JUST_SHOOT) \
+            .whileHeld(just_shoot.JustShoot(self.robot))
+
         JoystickButton(self.drive_controller, config.OI_TOGGLE_INTAKE) \
-            .toggleWhenPressed(toggle_intake.ToggleIntake(self.robot))
+            .whenPressed(toggle_intake.ToggleIntake(self.robot))
 
         JoystickButton(self.drive_controller, config.OI_TOGGLE_CAMERA) \
-            .toggleWhenPressed(
+            .whenPressed(
                 toggle_driver_direction.ToggleDriverDirection(self.robot))
 
     def get_drive_controller(self):
