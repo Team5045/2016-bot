@@ -10,7 +10,7 @@ from wpilib.command import Scheduler
 
 from bot import operator_interface
 from bot.subsystems import drive_train, intake, shooter, jetson, navx, \
-    auto_chooser, driver_direction_chooser
+    auto_chooser, driver_direction_chooser, compressor, vitals
 
 
 class Robot(wpilib.IterativeRobot):
@@ -20,12 +20,16 @@ class Robot(wpilib.IterativeRobot):
         initialize the subsystems.
         """
 
+        self.vitals = vitals.Vitals(self)
+
         self.navx = navx.NavX(self)
         self.jetson = jetson.Jetson(self)
 
         self.drive_train = drive_train.DriveTrain(self)
         self.intake = intake.Intake(self)
         self.shooter = shooter.Shooter(self)
+
+        self.compressor = compressor.Compressor(self)
 
         self.auto_chooser = auto_chooser.AutoChooser(self)
         self.driver_direction_chooser = driver_direction_chooser \
@@ -55,7 +59,7 @@ class Robot(wpilib.IterativeRobot):
             self.autonomous_command.cancel()
 
     def disabledPeriodic(self):
-        pass
+        Scheduler.getInstance().run()
 
 if __name__ == '__main__':
     wpilib.run(Robot)

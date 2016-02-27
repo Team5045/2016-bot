@@ -12,16 +12,19 @@ class Intake(Command):
         pass
 
     def execute(self):
-        print('running intake cmd')
-        self.robot.intake.run()
+        if not self.robot.intake.has_boulder_loaded:
+            self.robot.intake.run()
+            self.robot.oi.set_controller_rumble(0)
+        else:
+            self.robot.intake.stop()
+            self.robot.oi.set_controller_rumble(1)
 
     def isFinished(self):
-        # Stop running intake once the boulder is loaded;
-        # make sure we don't load more than one.
-        return False  # self.robot.intake.has_boulder_loaded
+        return False
 
     def end(self):
         self.robot.intake.stop()
+        self.robot.oi.set_controller_rumble(0)
 
     def interrupted(self):
         self.end()

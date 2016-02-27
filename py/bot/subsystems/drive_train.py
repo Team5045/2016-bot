@@ -15,6 +15,8 @@ from bot.commands.drive_with_controller import DriveWithController
 
 class DriveTrain(Subsystem):
 
+    DRIVE_MODE = 'tank'
+
     def __init__(self, robot):
         super().__init__()
         self.robot = robot
@@ -60,17 +62,31 @@ class DriveTrain(Subsystem):
         self.drive_train.drive(speed, curve)
 
     def drive_with_controller(self, controller):
-        speed = -controller.getLeftY()
-        turn_radius = -controller.getRightX()
+        if self.DRIVE_MODE == 'arcade':
+            speed = -controller.getLeftY()
+            turn_radius = -controller.getRightX()
 
-        # Invert direction if driver set
-        driver_direction = self.robot.driver_direction_chooser.get_selected()
-        if driver_direction == 'intaking':
-            speed = -speed
-            # turn_radius = -turn_radius
+            # Invert direction if driver set
+            driver_direction = self.robot.driver_direction_chooser \
+                .get_selected()
 
-        self.drive_train.setMaxOutput(config.DRIVE_MAX_SPEED)
-        self.drive_train.arcadeDrive(speed, turn_radius, True)
+            if driver_direction == 'shooting':
+                speed = -speed
+
+            self.drive_train.arcadeDrive(speed, turn_radius, True)
+
+        elif self.DRIVE_MODE == 'tank':
+            left_speed = -controller.getLeftY()
+            right_speed = -controller.getRightY()
+
+            # Invert direction if driver set
+            driver_direction = self.robot.driver_direction_chooser \
+                .get_selected()
+
+            if driver_direction == 'shooting':
+                self.drive_train.tankDrive(-right_speed, -left_speed, True)
+            else:
+                self.drive_train.tankDrive(left_speed, right_speed, True)
 
     def reset_encoders(self):
         self.left_encoder.reset()

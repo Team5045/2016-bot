@@ -1,24 +1,24 @@
 from wpilib.command import Command
 
 
-class JustShoot(Command):
+class UpdateCompressorState(Command):
 
     def __init__(self, robot):
         super().__init__()
         self.robot = robot
-        self.requires(self.robot.shooter)
+        self.requires(self.robot.compressor)
 
     def initialize(self):
         pass
 
     def execute(self):
-        self.robot.shooter.run()
+        self.robot.compressor.check_and_update_state()
 
     def isFinished(self):
         return False
 
     def end(self):
-        self.robot.shooter.stop()
+        pass
 
     def interrupted(self):
         self.end()

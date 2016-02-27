@@ -1,24 +1,23 @@
 from wpilib.command import Command
 
 
-class Outtake(Command):
+class DeployIntake(Command):
 
     def __init__(self, robot):
         super().__init__()
         self.robot = robot
         self.requires(self.robot.intake)
+        self.is_finished = False
 
     def initialize(self):
-        self.robot.intake.mark_boulder_as_unloaded()
-
-    def execute(self):
-        self.robot.intake.run(-1)
-
-    def isFinished(self):
-        return False  # Run until interrupted
+        self.robot.intake.deploy()
+        self.is_finished = True
 
     def end(self):
-        self.robot.intake.stop()
+        pass
 
     def interrupted(self):
         self.end()
+
+    def isFinished(self):
+        return self.is_finished

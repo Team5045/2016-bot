@@ -25,6 +25,8 @@ class Intake(Subsystem):
         self.boulder_limit_switch = wpilib.DigitalInput(
             config.INTAKE_LOADED_LIMIT_SWITCH)
 
+        self.boulder_reached_limit_switch = False
+
     def toggle(self):
         self.intake_solenoid.toggle()
 
@@ -44,6 +46,20 @@ class Intake(Subsystem):
     def stop(self):
         self.intake_motor.set(0)
 
+    def mark_boulder_as_unloaded(self):
+        # The intake runs so fast that occassionally the boulder
+        # will roll all the way past the limit switch before we
+        # have a chance to stop it; i.e., boulder_loaded is briefly
+        # toggled, but the motors go a bit longer, so when we next
+        # check, the boulder is no longer loaded (since it rolls
+        # away from the switch). So we offer a sort of cachey way
+        # to track it instead. Methods that "remove" the boulder from
+        # the bot (shoot + outtake) manually call this function.
+        self.boulder_reached_limit_switch = False
+
     @property
     def has_boulder_loaded(self):
-        return self.boulder_limit_switch.get()
+        # return False
+        if not self.boulder_limit_switch.get():
+            self.boulder_reached_limit_switch = True
+        return self.boulder_reached_limit_switch

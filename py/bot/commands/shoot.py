@@ -1,6 +1,7 @@
 from wpilib.command import Command
 
-SHOOT_TIMEOUT = 1.5  # Seconds; time for ball to be lifted to shooter and shot
+SHOOT_TIMEOUT = 2.5  # Seconds; time for ball to be lifted to shooter and shot
+TIME_TO_WAIT_TO_SHOOT = 1.5  # Seconds
 
 
 class Shoot(Command):
@@ -13,11 +14,11 @@ class Shoot(Command):
 
     def initialize(self):
         self.setTimeout(SHOOT_TIMEOUT)
+        self.robot.intake.mark_boulder_as_unloaded()
 
     def execute(self):
-        print('shooting')
         self.robot.shooter.run()
-        if self.timeSinceInitialized() > 0.75:
+        if self.timeSinceInitialized() > TIME_TO_WAIT_TO_SHOOT:
             # Give shooter time to spin up before starting
             self.robot.intake.run()
 

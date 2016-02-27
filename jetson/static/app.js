@@ -21,11 +21,7 @@
         connected_to_robot: false
     };
 
-    var robotEditables = {
-        // 'editable--chooser--autonomous_command/options': ['thing1', 'thing2'],
-        // 'editable--chooser--autonomous_command/default': 'thing1',
-        // 'editable--chooser--autonomous_command/selected': 'thing2'
-    };
+    var robotEditables = {};
 
     socket.on('close disconnect', function() {
         robotStats.connected_to_jetson = false;
@@ -88,7 +84,9 @@
         }));
 
         updateRobotStats();
-        updateRobotEditables();
+
+        clearTimeout(updateTimeout);
+        updateTimeout = setTimeout(updateRobotEditables, 100);
     });
 
     function updateRobotStats() {
@@ -117,17 +115,24 @@
     // stop editables update from propagating while the driver
     // is interacting with the dropdown menu. 
     var isInteractingWithEditable = false;
-    $('#robotEditablesInner input, #robotEditablesInner select')
-        .on('mousedown focus', function () { isInteractingWithEditable = true; })
-        .on('blur', function () { isInteractingWithEditable = false; });
+    $('#robotEditablesInner')
+        .on('mouseenter', function () {
+            isInteractingWithEditable = true;
+        })
+        .on('mouseleave', function () {
+            isInteractingWithEditable = false;
+        });
 
+    var updateTimeout;
     function updateRobotEditables() {
+        if (isInteractingWithEditable) {
+            clearTimeout(updateTimeout);
+            updateTimeout = setTimeout(updateRobotEditables, 100);
+            return;
+        }
+
         var $editables = $('#robotEditablesInner').empty(),
             alreadyHandled = {};
-
-        if (isInteractingWithEditable) {
-            setTimeout(updateRobotEditables, 500);
-        }
 
         _.forIn(robotEditables, function (value, key) {
             var keyParams = key.split('--'),
@@ -164,6 +169,24 @@
                                     key: keyPrefix + '/selected',
                                     value: $(this).val(),
                                     type: 'string'
+                                });
+                            })
+                    )
+                    .appendTo($editables);
+
+            } else if (type === 'boolean') {
+                $('<div>', { id: 'editables_' + name })
+                    .append($('<b>').text(name))
+                    .append(': ')
+                    .append(
+                        $('<input type="checkbox">')
+                            .prop('checked', value)
+                            .change(function () {
+                                $(this).prop('disabled', true);
+                                socket.emit('edit_network_tables', {
+                                    key: key,
+                                    value: $(this).prop('checked'),
+                                    type: 'boolean'
                                 });
                             })
                     )

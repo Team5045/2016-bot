@@ -7,7 +7,7 @@ implement a "true" `GenericHID`, so we have to monkey-patch the controller
 so we can still attach button handlers.
 """
 
-from robotpy_ext.control.xbox_controller import XboxController
+from .xbox_controller import XboxController
 
 
 class ButtonedXboxController(XboxController):
@@ -19,9 +19,8 @@ class ButtonedXboxController(XboxController):
         elif button == 'right_trigger':
             return self.getRightTrigger()
         elif button == 'left_bumper':
-            # FIXME REVERSED THESE SINCE BUMPER BROKEN???
-            return self.getRightBumper()
-        elif button == 'right_bumper':
             return self.getLeftBumper()
+        elif button == 'right_bumper':
+            return self.getRightBumper()
         else:
             return self.ds.getStickButton(self.port, button)
