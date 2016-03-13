@@ -75,6 +75,31 @@ class TouchDefenseAutonomous(Autonomous):
         return super().isFinished()
 
 
+class CrossDefenseAutonomous(Autonomous):
+    nickname = "Start in neutral; cross defense"
+
+    def __init__(self, robot):
+        super().__init__(robot)
+        self.requires(self.robot.navx)
+        self.addParallel(RetractIntake(robot))
+        self.addParallel(Drive(robot, -250, speed=0.6))
+
+    def initialize(self):
+        pass
+
+    def execute(self):
+        pass
+
+    def end(self):
+        pass
+
+    def interrupted(self):
+        pass
+
+    def isFinished(self):
+        return super().isFinished()
+
+
 class CrossDefenseAndShootAutonomous(Autonomous):
     nickname = "Start in neutral; cross defense; shoot boulder"
 
@@ -82,7 +107,7 @@ class CrossDefenseAndShootAutonomous(Autonomous):
         super().__init__(robot)
         self.requires(self.robot.navx)
         self.addParallel(RetractIntake(robot))
-        self.addParallel(Drive(robot, -60))
+        self.addParallel(Drive(robot, -210))
         self.addSequential(AutoAlign(robot))
         self.addSequential(Shoot(robot))
 
@@ -102,5 +127,5 @@ class CrossDefenseAndShootAutonomous(Autonomous):
         return super().isFinished()
 
 # List of all available autonomous commands provided in file
-auto_commands = [NoAutonomous, SpyBotShooterAutonomous,
+auto_commands = [CrossDefenseAutonomous, NoAutonomous, SpyBotShooterAutonomous,
                  TouchDefenseAutonomous, CrossDefenseAndShootAutonomous]

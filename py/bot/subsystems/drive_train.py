@@ -62,26 +62,24 @@ class DriveTrain(Subsystem):
         self.drive_train.drive(speed, curve)
 
     def drive_with_controller(self, controller):
+        # Invert direction if driver set
+        driver_direction = self.robot.driver_direction_chooser \
+            .get_selected()
+
+        # Arcade drive
         if self.DRIVE_MODE == 'arcade':
             speed = -controller.getLeftY()
             turn_radius = -controller.getRightX()
-
-            # Invert direction if driver set
-            driver_direction = self.robot.driver_direction_chooser \
-                .get_selected()
 
             if driver_direction == 'shooting':
                 speed = -speed
 
             self.drive_train.arcadeDrive(speed, turn_radius, True)
 
+        # Tank drive
         elif self.DRIVE_MODE == 'tank':
             left_speed = -controller.getLeftY()
             right_speed = -controller.getRightY()
-
-            # Invert direction if driver set
-            driver_direction = self.robot.driver_direction_chooser \
-                .get_selected()
 
             if driver_direction == 'shooting':
                 self.drive_train.tankDrive(-right_speed, -left_speed, True)

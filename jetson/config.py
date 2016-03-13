@@ -25,7 +25,7 @@ TARGETING_LOWER_HSV_BOUND = (79, 140, 76)  # Green for spartaaaa
 TARGETING_UPPER_HSV_BOUND = (99, 255, 255)
 
 # NETWORK TABLES
-ROBOT_IP_ADDRESS = '10.50.45.85'
+ROBOT_IP_ADDRESS = 'roborio-5045-frc.local'
 # ROBOT_IP_ADDRESS = '127.0.0.1'
 NT_DRIVER_DIRECTION_SELECTOR = 'editable--chooser--driver_direction'
 NT_AUTONOMOUS_COMMAND_SELECTOR = 'editable--chooser--autonomous_command'

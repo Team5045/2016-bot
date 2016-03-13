@@ -7,13 +7,13 @@ class Drive(Command):
     TOLERANCE = .5  # Inches
     KP = 1/2
 
-    def __init__(self, robot, distance, dont_stop=False):
+    def __init__(self, robot, distance, speed=None, dont_stop=False):
         super().__init__()
         self.robot = robot
         self.requires(self.robot.drive_train)
         self.distance = abs(distance)  # Inches
         self.is_backwards = distance < 0
-        self.speed = self.MAX_SPEED
+        self.speed = speed if speed else self.MAX_SPEED
         self.error = float('inf')
         self.dont_stop = dont_stop
 
