@@ -19,6 +19,9 @@ class PublishNavxValues(Command):
         self.robot.jetson.put_value('encoders',
                                     self.robot.drive_train.get_encoder_distance(),
                                     valueType='number')
+        self.robot.jetson.put_value('sonar',
+                                    self.robot.sonar.get(),
+                                    valueType='number')
 
     def isFinished(self):
         return False

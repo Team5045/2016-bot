@@ -24,7 +24,6 @@ class DriverDirectionChooser(Subsystem):
 
     def toggle(self):
         """Switches the selected direction."""
-        print('toggling driver_direction')
         self.robot.jetson.put_value(
             config.MISC_DRIVER_DIRECTION_DASHBOARD_KEY + '/selected',
             self.OPTIONS[(self.get_selected_index() + 1) % len(self.OPTIONS)],

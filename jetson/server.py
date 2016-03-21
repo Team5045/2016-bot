@@ -33,7 +33,8 @@ jetson_network_tables = NetworkTables()
 jetson_network_tables.set_socketio(socketio)
 jetson_network_tables.set_choosers([
     config.NT_AUTONOMOUS_COMMAND_SELECTOR,
-    config.NT_DRIVER_DIRECTION_SELECTOR
+    config.NT_DRIVER_DIRECTION_SELECTOR,
+    config.NT_AUTONOMOUS_POSITION_SELECTOR
 ])
 
 

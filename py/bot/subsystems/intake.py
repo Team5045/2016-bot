@@ -63,3 +63,16 @@ class Intake(Subsystem):
         if not self.boulder_limit_switch.get():
             self.boulder_reached_limit_switch = True
         return self.boulder_reached_limit_switch
+
+    # MACRO record/replay support implemented in get_state()
+    # and restore_state() methods
+
+    def get_state(self):
+        return {
+            'intake_solenoid': self.intake_solenoid.get(),
+            'intake_motor': self.intake_motor.get()
+        }
+
+    def restore_state(self, state):
+        self.intake_solenoid.set(state['intake_solenoid'])
+        self.intake_motor.set(state['intake_motor'])

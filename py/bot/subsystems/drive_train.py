@@ -96,3 +96,20 @@ class DriveTrain(Subsystem):
 
     def stop(self):
         self.drive(0)
+
+    # MACRO record/replay support implemented in get_state()
+    # and restore_state() methods
+
+    def get_state(self):
+        return {
+            'front_left_motor': self.front_left_motor.get(),
+            'rear_left_motor': self.rear_left_motor.get(),
+            'front_right_motor': self.front_right_motor.get(),
+            'rear_right_motor': self.rear_right_motor.get()
+        }
+
+    def restore_state(self, state):
+        self.front_left_motor.set(state['front_left_motor'])
+        self.rear_left_motor.set(state['rear_left_motor'])
+        self.front_right_motor.set(state['front_right_motor'])
+        self.rear_right_motor.set(state['rear_right_motor'])

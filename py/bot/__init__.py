@@ -10,7 +10,8 @@ from wpilib.command import Scheduler
 
 from bot import operator_interface
 from bot.subsystems import drive_train, intake, shooter, jetson, navx, \
-    auto_chooser, driver_direction_chooser, compressor, vitals
+    auto_chooser, driver_direction_chooser, compressor, sonar, vitals, \
+    auto_start_chooser, macros
 
 
 class Robot(wpilib.IterativeRobot):
@@ -30,10 +31,14 @@ class Robot(wpilib.IterativeRobot):
         self.shooter = shooter.Shooter(self)
 
         self.compressor = compressor.Compressor(self)
+        self.sonar = sonar.Sonar(self)
 
+        self.auto_start_chooser = auto_start_chooser.AutoStartChooser(self)
         self.auto_chooser = auto_chooser.AutoChooser(self)
         self.driver_direction_chooser = driver_direction_chooser \
             .DriverDirectionChooser(self)
+
+        self.macros = macros.Macros(self)
 
         self.oi = operator_interface.OperatorInterface(self)
 

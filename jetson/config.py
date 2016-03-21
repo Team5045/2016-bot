@@ -29,3 +29,5 @@ ROBOT_IP_ADDRESS = 'roborio-5045-frc.local'
 # ROBOT_IP_ADDRESS = '127.0.0.1'
 NT_DRIVER_DIRECTION_SELECTOR = 'editable--chooser--driver_direction'
 NT_AUTONOMOUS_COMMAND_SELECTOR = 'editable--chooser--autonomous_command'
+NT_AUTONOMOUS_POSITION_SELECTOR = ('editable--chooser--autonomous'
+                                   '_start_position')

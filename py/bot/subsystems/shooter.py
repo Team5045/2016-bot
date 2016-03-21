@@ -23,3 +23,14 @@ class Shooter(Subsystem):
 
     def stop(self):
         self.shooter_motor.set(0)
+
+    # MACRO record/replay support implemented in get_state()
+    # and restore_state() methods
+
+    def get_state(self):
+        return {
+            'shooter_motor': self.shooter_motor.get()
+        }
+
+    def restore_state(self, state):
+        self.shooter_motor.set(state['shooter_motor'])

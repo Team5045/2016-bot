@@ -7,8 +7,12 @@ class ControlledSolenoid(object):
         self.state = self.solenoid.get()
 
     def set(self, state):
-        self.state = state
-        self.solenoid.set(self.state)
+        if state != self.state:
+            self.state = state
+            self.solenoid.set(self.state)
+
+    def get(self):
+        return self.state
 
     def toggle(self):
         if self.state == wpilib.DoubleSolenoid.Value.kForward:

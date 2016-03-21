@@ -2,9 +2,12 @@ from wpilib.command import CommandGroup, Command
 
 from bot.commands.shoot import Shoot
 from bot.commands.auto_align import AutoAlign
+from bot.commands.auto_cross import AutoCross
 from bot.commands.auto_drive import Drive
-from bot.commands.auto_rotate_2 import Rotate
+from bot.commands.auto_rotate import Rotate
 from bot.commands.retract_intake import RetractIntake
+from bot.commands.auto_drive_to_batter_from_defense import \
+    DriveToBatterFromDefense
 
 
 class NoAutonomous(Command):
@@ -40,12 +43,6 @@ class SpyBotShooterAutonomous(Autonomous):
         self.addSequential(AutoAlign(robot))
         self.addSequential(Shoot(robot))
 
-    def end(self):
-        pass
-
-    def interrupted(self):
-        pass
-
     def isFinished(self):
         return super().isFinished()
 
@@ -62,70 +59,54 @@ class TouchDefenseAutonomous(Autonomous):
     def initialize(self):
         self.robot.navx.reset()
 
-    def execute(self):
-        pass
+    def isFinished(self):
+        return super().isFinished()
 
-    def end(self):
-        pass
 
-    def interrupted(self):
-        pass
+class OldCrossDefenseAutonomous(Autonomous):
+    nickname = "[non-sonar] Start in neutral; cross defense"
+
+    def __init__(self, robot):
+        super().__init__(robot)
+        self.addParallel(RetractIntake(robot))
+        self.addParallel(Drive(robot, -250, speed=0.6))
 
     def isFinished(self):
         return super().isFinished()
 
 
 class CrossDefenseAutonomous(Autonomous):
-    nickname = "Start in neutral; cross defense"
+    nickname = "[uses sonar] Start in neutral; cross defense"
 
     def __init__(self, robot):
         super().__init__(robot)
-        self.requires(self.robot.navx)
         self.addParallel(RetractIntake(robot))
-        self.addParallel(Drive(robot, -250, speed=0.6))
-
-    def initialize(self):
-        pass
-
-    def execute(self):
-        pass
-
-    def end(self):
-        pass
-
-    def interrupted(self):
-        pass
+        self.addParallel(AutoCross(robot))
+        self.addSequential(Drive(robot, -50, speed=0.6))
 
     def isFinished(self):
         return super().isFinished()
 
 
 class CrossDefenseAndShootAutonomous(Autonomous):
-    nickname = "Start in neutral; cross defense; shoot boulder"
+    nickname = "[uses sonar] Start in neutral; cross defense; shoot boulder"
 
     def __init__(self, robot):
         super().__init__(robot)
-        self.requires(self.robot.navx)
-        self.addParallel(RetractIntake(robot))
-        self.addParallel(Drive(robot, -210))
+        self.addSequential(RetractIntake(robot))
+        self.addSequential(Drive(robot, -250, speed=0.6))
+        # self.addSequential(Drive(robot, -100, speed=0.6))
+        # self.addSequential(Drive(robot, until_sonar_gt=50, speed=0.7))
+        # self.addSequential(Drive(robot, -20, speed=0.5))
+        # self.addSequential(DriveToBatterFromDefense(robot))
+        self.addSequential(AutoAlign(robot))
+        self.addSequential(AutoAlign(robot))
         self.addSequential(AutoAlign(robot))
         self.addSequential(Shoot(robot))
-
-    def initialize(self):
-        pass
-
-    def execute(self):
-        pass
-
-    def end(self):
-        pass
-
-    def interrupted(self):
-        pass
 
     def isFinished(self):
         return super().isFinished()
 
 # List of all available autonomous commands provided in file
-auto_commands = [CrossDefenseAutonomous, NoAutonomous, SpyBotShooterAutonomous,
-                 TouchDefenseAutonomous, CrossDefenseAndShootAutonomous]
+auto_commands = [CrossDefenseAndShootAutonomous, CrossDefenseAutonomous,
+                 NoAutonomous, SpyBotShooterAutonomous, TouchDefenseAutonomous]
