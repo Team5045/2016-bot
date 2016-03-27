@@ -91,7 +91,7 @@
 
     function updateRobotStats() {
         var $stats = $('#robotStatsInner');
-        Object.keys(robotStats).forEach(function (key) {
+        Object.keys(robotStats).sort().forEach(function (key) {
             var $existing = $stats.find('#stats_' + key);
             if ($existing.length) {
                 $existing.find('span').text(robotStats[key]);
@@ -134,8 +134,9 @@
         var $editables = $('#robotEditablesInner').empty(),
             alreadyHandled = {};
 
-        _.forIn(robotEditables, function (value, key) {
-            var keyParams = key.split('--'),
+        Object.keys(robotEditables).sort().forEach(function (key) {
+            var value = robotEditables[key],
+                keyParams = key.split('--'),
                 type = keyParams[1], name = keyParams[2].split('/')[0];
 
             if (alreadyHandled[name]) {

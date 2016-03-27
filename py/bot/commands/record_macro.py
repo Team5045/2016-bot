@@ -11,6 +11,7 @@ class RecordMacro(Command):
         super().__init__()
         self.robot = robot
         self.requires(self.robot.macros)
+        self.requires(self.robot.macro_chooser)
         self.setTimeout(MACRO_LENGTH)
 
     def initialize(self):
@@ -18,6 +19,8 @@ class RecordMacro(Command):
         formatted_start_time = datetime.datetime.now().isoformat()
         self.writer = self.robot.macros.make_macro_writer(
             name=formatted_start_time)
+
+        self.robot.macros.mark_recording(True)
 
     def execute(self):
         self.writer.write(
@@ -30,6 +33,8 @@ class RecordMacro(Command):
 
     def end(self):
         self.writer.end()
+        self.robot.macros.mark_recording(False)
+        self.robot.macro_chooser.refresh_options()
 
     def interrupted(self):
         self.end()

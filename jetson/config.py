@@ -21,7 +21,7 @@ TARGETING_CAMERA_FPS = 30
 TARGETING_CAMERA_WHITE_BALANCE = 3000
 TARGETING_CAMERA_BRIGHTNESS = -10
 TARGETING_CAMERA_EXPOSURE = 20
-TARGETING_LOWER_HSV_BOUND = (79, 140, 76)  # Green for spartaaaa
+TARGETING_LOWER_HSV_BOUND = (30, 108, 101)  # Green for spartaaaa
 TARGETING_UPPER_HSV_BOUND = (99, 255, 255)
 
 # NETWORK TABLES
@@ -31,3 +31,4 @@ NT_DRIVER_DIRECTION_SELECTOR = 'editable--chooser--driver_direction'
 NT_AUTONOMOUS_COMMAND_SELECTOR = 'editable--chooser--autonomous_command'
 NT_AUTONOMOUS_POSITION_SELECTOR = ('editable--chooser--autonomous'
                                    '_start_position')
+NT_MACRO_SELECTOR = 'editable--chooser--macro'

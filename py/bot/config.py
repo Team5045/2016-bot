@@ -20,11 +20,11 @@ OI_OPERATOR_CONTROLLER = 1
 OI_INTAKE = 'right_trigger'
 OI_OUTTAKE = 'left_trigger'
 OI_SHOOT = 1  # "A" button
-# OI_JUST_SHOOT = 2  # "B" button
 OI_AUTO_ALIGN = 3  # "X" button
 
-OI_RECORD_MACRO = 2  # "B" button
-OI_PLAY_MACRO = 4  # "Y" button
+OI_MACRO_TABLE = 'SmartDashboard'
+OI_MACRO_RECORD = 'editable--boolean--record_macro'
+OI_MACRO_PLAY = 'editable--boolean--play_macro'
 
 OI_TOGGLE_INTAKE = 'right_bumper'
 OI_TOGGLE_CAMERA = 'left_bumper'
@@ -56,6 +56,10 @@ COMPRESSOR_DASHBOARD_KEY = 'editable--boolean--compressor'
 
 # Sonar
 SONAR_PORT = 5  # DIO
+
+# Macros
+# Note - also includes OI_MACRO_ keys
+MACROS_DASHBOARD_KEY = 'editable--chooser--macro'
 
 # Misc
 MISC_AUTO_COMMAND_DASHBOARD_KEY = 'editable--chooser--autonomous_command'

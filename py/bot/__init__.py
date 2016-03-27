@@ -11,7 +11,7 @@ from wpilib.command import Scheduler
 from bot import operator_interface
 from bot.subsystems import drive_train, intake, shooter, jetson, navx, \
     auto_chooser, driver_direction_chooser, compressor, sonar, vitals, \
-    auto_start_chooser, macros
+    auto_start_chooser, macros, macro_chooser
 
 
 class Robot(wpilib.IterativeRobot):
@@ -39,6 +39,7 @@ class Robot(wpilib.IterativeRobot):
             .DriverDirectionChooser(self)
 
         self.macros = macros.Macros(self)
+        self.macro_chooser = macro_chooser.MacroChooser(self)
 
         self.oi = operator_interface.OperatorInterface(self)
 

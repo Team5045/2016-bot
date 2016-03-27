@@ -6,6 +6,8 @@ import os
 from wpilib.command import Subsystem
 from wpilib.timer import Timer
 
+from bot import config
+
 
 MACRO_FILE_FORMAT = '/home/lvuser/macros/{}'
 
@@ -18,6 +20,8 @@ class Macros(Subsystem):
     def __init__(self, robot):
         super().__init__()
         self.robot = robot
+        self.mark_recording(False)
+        self.mark_playing(False)
 
     def get_time(self):
         return Timer.getFPGATimestamp()
@@ -40,8 +44,16 @@ class Macros(Subsystem):
         return MacroReader(name)
 
     def get_recorded_macros(self):
-        return [os.path.basename(p) for p in
-                glob.glob(MACRO_FILE_FORMAT.format('*'))]
+        return sorted([os.path.basename(p) for p in
+                       glob.glob(MACRO_FILE_FORMAT.format('*'))], reverse=True)
+
+    def mark_recording(self, recording):
+        self.robot.jetson.put_value(config.OI_MACRO_RECORD, recording,
+                                    valueType='boolean')
+
+    def mark_playing(self, playing):
+        self.robot.jetson.put_value(config.OI_MACRO_PLAY, playing,
+                                    valueType='boolean')
 
 
 class MacroWriter(object):

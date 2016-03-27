@@ -9,24 +9,30 @@ class RunCommandUntilCommandFinished(CommandGroup):
         watch - the command that, when finished, triggers the first command
                 to stop running
     """
-    def __init__(self, run, watch):
-        super().__init__()
-        self.run = run
+    def __init__(self, robot, run, watch):
+        super().__init__(robot)
+        self.addSequential(run)
+        if type(watch) != list:
+            watch = [watch]
+
+        for c in watch:
+            self.addParallel(c)
+
         self.watch = watch
-        self.addParallel(self.run)
-        self.addParallel(self.watch)
+
+        self.is_finished = False
 
     def initialize(self):
         pass
 
     def execute(self):
-        print('exec rununtil')
+        is_finished = True
+
+        for c in self.watch:
+            if not c.isFinished():
+                is_finished = False
+
+        self.is_finished = is_finished
 
     def isFinished(self):
-        return self.watch.isFinished()
-
-    # # def end(self):
-    # #     pass
-
-    # def interrupted(self):
-    #     self.end()
+        return self.is_finished

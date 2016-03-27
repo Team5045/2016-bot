@@ -17,10 +17,13 @@ class WaitForSonar(Command):
         pass
 
     def isFinished(self):
+        value = self.robot.sonar.get()
+
+        print('waiting for sonar', value)
         if self.distance_gt:
-            return self.robot.sonar.get() > self.distance_gt
+            return value > self.distance_gt
         else:
-            return self.robot.sonar.get() < self.distance_lt
+            return value < self.distance_lt
 
     def end(self):
         pass

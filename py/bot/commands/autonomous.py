@@ -6,8 +6,6 @@ from bot.commands.auto_cross import AutoCross
 from bot.commands.auto_drive import Drive
 from bot.commands.auto_rotate import Rotate
 from bot.commands.retract_intake import RetractIntake
-from bot.commands.auto_drive_to_batter_from_defense import \
-    DriveToBatterFromDefense
 
 
 class NoAutonomous(Command):
@@ -48,7 +46,7 @@ class SpyBotShooterAutonomous(Autonomous):
 
 
 class TouchDefenseAutonomous(Autonomous):
-    nickname = "Start in neutral; drive until touching a defense"
+    nickname = "Start in neutral; touch defense"
 
     def __init__(self, robot):
         super().__init__(robot)
@@ -64,7 +62,7 @@ class TouchDefenseAutonomous(Autonomous):
 
 
 class OldCrossDefenseAutonomous(Autonomous):
-    nickname = "[non-sonar] Start in neutral; cross defense"
+    nickname = "[non-navx] Start in neutral; cross defense"
 
     def __init__(self, robot):
         super().__init__(robot)
@@ -76,32 +74,29 @@ class OldCrossDefenseAutonomous(Autonomous):
 
 
 class CrossDefenseAutonomous(Autonomous):
-    nickname = "[uses sonar] Start in neutral; cross defense"
+    nickname = "Start in neutral; cross defense"
 
     def __init__(self, robot):
         super().__init__(robot)
         self.addParallel(RetractIntake(robot))
         self.addParallel(AutoCross(robot))
-        self.addSequential(Drive(robot, -50, speed=0.6))
+        self.addSequential(Drive(robot, -3, speed=0.6))
 
     def isFinished(self):
         return super().isFinished()
 
 
 class CrossDefenseAndShootAutonomous(Autonomous):
-    nickname = "[uses sonar] Start in neutral; cross defense; shoot boulder"
+    nickname = "Start in neutral; cross defense; shoot boulder"
 
     def __init__(self, robot):
         super().__init__(robot)
         self.addSequential(RetractIntake(robot))
-        self.addSequential(Drive(robot, -250, speed=0.6))
-        # self.addSequential(Drive(robot, -100, speed=0.6))
-        # self.addSequential(Drive(robot, until_sonar_gt=50, speed=0.7))
-        # self.addSequential(Drive(robot, -20, speed=0.5))
-        # self.addSequential(DriveToBatterFromDefense(robot))
-        self.addSequential(AutoAlign(robot))
-        self.addSequential(AutoAlign(robot))
-        self.addSequential(AutoAlign(robot))
+        self.addSequential(Drive(robot, -120, speed=0.6))
+        self.addSequential(AutoCross(robot))
+        self.addSequential(AutoAlign(robot,
+                                     search_for_target=True,
+                                     alignment_iterations=3))
         self.addSequential(Shoot(robot))
 
     def isFinished(self):
@@ -109,4 +104,5 @@ class CrossDefenseAndShootAutonomous(Autonomous):
 
 # List of all available autonomous commands provided in file
 auto_commands = [CrossDefenseAndShootAutonomous, CrossDefenseAutonomous,
-                 NoAutonomous, SpyBotShooterAutonomous, TouchDefenseAutonomous]
+                 NoAutonomous, TouchDefenseAutonomous,
+                 OldCrossDefenseAutonomous]

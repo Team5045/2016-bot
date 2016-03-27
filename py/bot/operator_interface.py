@@ -7,7 +7,7 @@ to controllers and also is responsible for linking commands to buttons.
 """
 
 from wpilib import Joystick
-from wpilib.buttons import JoystickButton
+from wpilib.buttons import JoystickButton, NetworkButton
 
 from bot import config
 from bot.utils.buttoned_xbox_controller import ButtonedXboxController
@@ -71,11 +71,14 @@ class OperatorInterface(object):
         JoystickButton(self.operator_controller, config.OI_TOGGLE_INTAKE) \
             .whenPressed(toggle_intake.ToggleIntake(self.robot))
 
-        JoystickButton(self.operator_controller, config.OI_RECORD_MACRO) \
+        # JETSON/DASHBOARD CONTROLLER
+
+        NetworkButton(config.OI_MACRO_TABLE, config.OI_MACRO_RECORD) \
             .whenPressed(record_macro.RecordMacro(self.robot))
 
-        JoystickButton(self.operator_controller, config.OI_PLAY_MACRO) \
-            .whenPressed(play_macro.PlayMacro(self.robot))
+        NetworkButton(config.OI_MACRO_TABLE, config.OI_MACRO_PLAY) \
+            .whenPressed(play_macro.PlayMacro(self.robot,
+                                              jetson_selected=True))
 
     def get_drive_controller(self):
         return self.drive_controller

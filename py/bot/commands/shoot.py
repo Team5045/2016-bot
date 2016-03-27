@@ -1,7 +1,7 @@
 from wpilib.command import Command
 
 SHOOT_TIMEOUT = 2.5  # Seconds; time for ball to be lifted to shooter and shot
-TIME_TO_WAIT_TO_SHOOT = 1.5  # Seconds
+TIME_TO_WAIT_TO_SHOOT = 1.25  # Seconds
 
 
 class Shoot(Command):
