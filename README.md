@@ -1,7 +1,9 @@
-# 2016-practice-robot
+# 2016-robot
 
 This repository contains the source code for [Team 5045's](http://team5045.com/#/home)
-2015-16 season's robot.
+2016 season robot.
+
+The targeting system used for auto-alignment on the goal and autonomous crossing and shooting won the INNOVATION IN CONTROL award at the inaugural Rocket City Regional in Huntsville, AL.
 
 ## Table of contents
 
