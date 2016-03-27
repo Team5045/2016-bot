@@ -40,7 +40,7 @@ class WaitForGyro(Command):
             if abs(self.roll - self.robot.navx.get_roll()) > TOLERANCE:
                 finished = False
 
-        print ('is finished gyro', finished)
+        print('is finished gyro', finished)
 
         if not finished:
             self.time_gyro_ok = None

@@ -66,17 +66,6 @@ def edit_network_tables(data):
     jetson_network_tables.put_value(data['key'], data['value'], data['type'])
 
 
-# @socketio.on('connect')
-# def on_connect():
-#     print 'connect'
-#     jetson_network_tables.put_value('dashboard_connected', True)
-
-
-# @socketio.on('disconnect')
-# def on_disconnect():
-#     print 'disconnect'
-#     jetson_network_tables.put_value('dashboard_connected', False)
-
 # --
 # CONTINUALLY-RUNNING FUNCTIONS
 # --
@@ -97,11 +86,9 @@ def continually_request_targeting():
     if jetson_network_tables.get_value('targeting_enabled') or \
         jetson_network_tables.get_value(config.NT_DRIVER_DIRECTION_SELECTOR +
                                         '/selected') == 'shooting':
-        # print 'Targeting enabled, running'
         g = Greenlet(request_targeting)
         g.start_later(config.TARGETING_INTERVAL)
     else:
-        # print 'Targeting not enabled, rechecking'
         g = Greenlet(continually_request_targeting)
         g.start_later(config.TARGETING_RETRY_INTERVAL)
 
@@ -110,7 +97,6 @@ def request_driver_vision():
     selected_camera = jetson_network_tables.get_value(
         config.NT_DRIVER_DIRECTION_SELECTOR + '/selected')
 
-    # print selected_camera
     jpeg = jetson_driver_vision.get_current_frame(camera=selected_camera,
                                                   make_jpeg=True)
     socketio.emit('driver_vision', {
@@ -123,11 +109,9 @@ def request_driver_vision():
 
 def continually_request_driver_vision():
     if True or jetson_network_tables.get_value('dashboard_connected'):
-        # print 'Driver vision enabled, running'
         g = Greenlet(request_driver_vision)
         g.start_later(config.DRIVER_STREAM_INTERVAL)
     else:
-        # print 'Driver vision not enabled, rechecking'
         g = Greenlet(continually_request_driver_vision)
         g.start_later(config.DRIVER_STREAM_RETRY_INTERVAL)
 

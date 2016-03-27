@@ -12,8 +12,7 @@ from wpilib.buttons import JoystickButton, NetworkButton
 from bot import config
 from bot.utils.buttoned_xbox_controller import ButtonedXboxController
 from bot.commands import intake, outtake, shoot, toggle_intake, \
-    toggle_driver_direction, just_shoot, auto_align, record_macro, \
-    play_macro
+    toggle_driver_direction, auto_align, record_macro, play_macro
 
 
 class OperatorInterface(object):
@@ -38,9 +37,6 @@ class OperatorInterface(object):
         JoystickButton(self.drive_controller, config.OI_SHOOT) \
             .whenReleased(shoot.Shoot(self.robot))
 
-        # JoystickButton(self.drive_controller, config.OI_JUST_SHOOT) \
-        #     .whileHeld(just_shoot.JustShoot(self.robot))
-
         JoystickButton(self.drive_controller, config.OI_TOGGLE_INTAKE) \
             .whenPressed(toggle_intake.ToggleIntake(self.robot))
 
@@ -64,9 +60,6 @@ class OperatorInterface(object):
 
         JoystickButton(self.operator_controller, config.OI_SHOOT) \
             .whenReleased(shoot.Shoot(self.robot))
-
-        # JoystickButton(self.operator_controller, config.OI_JUST_SHOOT) \
-        #     .whileHeld(just_shoot.JustShoot(self.robot))
 
         JoystickButton(self.operator_controller, config.OI_TOGGLE_INTAKE) \
             .whenPressed(toggle_intake.ToggleIntake(self.robot))

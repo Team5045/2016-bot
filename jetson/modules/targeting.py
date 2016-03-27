@@ -44,26 +44,19 @@ class Targeting(object):
             (2 * width * TAN_FIELD_OF_VIEW_ANGLE)
 
     def make_target_data(self, c):
-        """c = Coords in the form:
-        (c[0][0], c[0][1]) ---------- (c[1][0], c[1][1])
-                |                             |
-                |                             |
-                |                             |
-        (c[3][0], c[3][1]) ---------- (c[2][0], c[2][1])
-        """
         full_width = self.settings['width']
         full_height = self.settings['height']
         x_center = full_width / 2
         y_center = full_height / 2
 
         # Now convert coords to scaled [0, 1] coords, thus being
-        # resolution-indendent. Also flip the y axis so top is positive,
-        # bottom is negative, the giving coords in the form:
+        # resolution-indendent. Resultant coords thus in the form:
+        # 0
+        # |
+        # y   * (x, y)
+        # |
         # 1
-        # |
-        # |   * (x,y)
-        # |
-        # 0--------1
+        #  0---x---1
 
         sorted_c = sortpts_clockwise(c)
 
@@ -71,8 +64,6 @@ class Targeting(object):
                      (round(((x - x_center) / (full_width)) + 0.5, 3),
                      round((y - y_center) / (full_height) + 0.5, 3)),
                      sorted_c)
-
-        print(c, sorted_c, coords)
 
         top_left = coords[0]
         top_right = coords[1]
@@ -99,7 +90,6 @@ class Targeting(object):
         ret, frame = self.cap.read()
 
         # Convert to HSV color space
-        # blurred = cv2.GaussianBlur(frame, (11, 11), 0)  not needed??
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
         # Mask to only include colors within bounds

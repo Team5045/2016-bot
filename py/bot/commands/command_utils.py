@@ -1,12 +1,12 @@
 from wpilib.command import CommandGroup
 
 
-class RunCommandUntilCommandFinished(CommandGroup):
+class RunCommandUntilCommandsFinished(CommandGroup):
 
     """
     Arguments:
         run   - the command to run
-        watch - the command that, when finished, triggers the first command
+        watch - the command(s) that, when finished, triggers the first command
                 to stop running
     """
     def __init__(self, robot, run, watch):

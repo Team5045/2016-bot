@@ -4,7 +4,6 @@ from bot.commands.shoot import Shoot
 from bot.commands.auto_align import AutoAlign
 from bot.commands.auto_cross import AutoCross
 from bot.commands.auto_drive import Drive
-from bot.commands.auto_rotate import Rotate
 from bot.commands.retract_intake import RetractIntake
 
 
@@ -28,21 +27,6 @@ class Autonomous(CommandGroup):
     def __init__(self, robot):
         super().__init__()
         self.robot = robot
-
-
-class SpyBotShooterAutonomous(Autonomous):
-    nickname = "Start in spy box; shoot"
-
-    def __init__(self, robot):
-        super().__init__(robot)
-        # self.addSequential(RetractIntake(robot))
-        self.addSequential(Drive(robot, -50))
-        self.addSequential(Rotate(robot, -135))
-        self.addSequential(AutoAlign(robot))
-        self.addSequential(Shoot(robot))
-
-    def isFinished(self):
-        return super().isFinished()
 
 
 class TouchDefenseAutonomous(Autonomous):

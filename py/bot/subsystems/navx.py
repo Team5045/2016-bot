@@ -2,8 +2,6 @@ from wpilib.command import Subsystem
 
 from robotpy_ext.common_drivers.navx.ahrs import AHRS
 
-from bot.commands.publish_navx_values import PublishNavxValues
-
 
 class NavX(Subsystem):
 
@@ -11,11 +9,6 @@ class NavX(Subsystem):
         super().__init__()
         self.robot = robot
         self.navx = AHRS.create_i2c(port=1, update_rate_hz=40)
-
-    def initDefaultCommand(self):
-        """This sets the default command for the subsytem. This command
-        is run whenever no other command is running on the subsystem."""
-        self.setDefaultCommand(PublishNavxValues(self.robot))
 
     def reset(self):
         self.navx.zeroYaw()

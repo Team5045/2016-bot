@@ -59,7 +59,6 @@ class Intake(Subsystem):
 
     @property
     def has_boulder_loaded(self):
-        # return False
         if not self.boulder_limit_switch.get():
             self.boulder_reached_limit_switch = True
         return self.boulder_reached_limit_switch

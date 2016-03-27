@@ -57,37 +57,24 @@ class NetworkTables(object):
         return self.TYPES.get(str(t), default).capitalize()
 
     def on_chooser_choices(self, key, choices):
-        # print 'choices', key, choices
         self.on_value_changed(self.sd, '/'.join([key, 'options']), choices)
 
     def on_chooser_selected(self, key, selected):
-        # print 'selected', key, selected
         self.on_value_changed(self.sd, '/'.join([key, 'selected']), selected)
 
     def on_value_changed(self, table, key, value, is_new=False):
-        # print 'value changed!!!', table, key, value
         self.emit({
             key: value
         })
 
     def on_connection_changed(self, is_connected, table):
-        # print 'connection changed', is_connected, table
         self.emit({
             'connected_to_robot': is_connected
         })
-        # if is_connected:
-        #     self.sd.removeTableListener(self.on_value_changed)
-        #     self.sd.removeTableListener(self.on_subtable_value_changed)
-        #     self.sd.addTableListener(self.on_value_changed)
-        #     self.sd.addSubTableListener(self.on_subtable_value_changed)
-
-        # for key in table.entryStore.keys():
-        #     self.on_value_changed(table, key, table.getValue(key), True)
 
     def put_value(self, key, value, valueType='object'):
         formattedType = self.make_formatted_type(type(value), valueType)
-        # print formattedType
-        # print key, value, formattedType
+
         if formattedType.lower() != 'object':
             getattr(self.sd, 'put' + formattedType)(key, value)
             return
@@ -108,7 +95,6 @@ class NetworkTables(object):
         self.socketio = socketio
 
     def emit(self, data):
-        # print 'emit', data
         self.value_cache.update(data)
         if self.socketio:
             self.socketio.emit('network_tables_update', data)

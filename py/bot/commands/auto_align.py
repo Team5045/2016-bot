@@ -1,18 +1,11 @@
 from wpilib.command import CommandGroup
 
 TARGET_FOUND = 'target_found'
-DISTANCE_AWAY = 'target_details--distance_away'
 COORDS = 'target_details--coords'
 
-SKEW_TOLERANCE = 0.1  # How "skewed" the goal can be to move on
-
-ACTUAL_GOAL_WIDTH_IN_INCHES = 20
 GOAL_CENTER = (0.55, 0.25)  # Target location to center the target
 CENTERING_X_TOLERANCE = 0.02
 CENTERING_Y_TOLERANCE = 0.02
-
-MAX_DISTANCE = 30  # Inches
-MIN_DISTANCE = 20
 
 
 class AutoAlign(CommandGroup):
@@ -30,7 +23,7 @@ class AutoAlign(CommandGroup):
         self.is_aligned = False
         self.is_failed = False
 
-    def do_things(self, coords, distance_away=None):
+    def do_things(self, coords):
         """There are a number of different steps to alignment. This function
         uses certain tolerances to progress through the steps and basically
         return the drive instructions along any step of the way. It's slightly

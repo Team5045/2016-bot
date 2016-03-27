@@ -9,6 +9,8 @@ import ast
 from wpilib import SmartDashboard
 from wpilib.command import Subsystem
 
+from bot.commands.publish_stats_to_jetson import PublishStatsToJetson
+
 
 class Jetson(Subsystem):
 
@@ -17,8 +19,12 @@ class Jetson(Subsystem):
         self.robot = robot
         self.sd = SmartDashboard
 
+    def initDefaultCommand(self):
+        """This sets the default command for the subsytem. This command
+        is run whenever no other command is running on the subsystem."""
+        self.setDefaultCommand(PublishStatsToJetson(self.robot))
+
     def put_value(self, key, value, valueType='value'):
-        # print(key, value)
         getattr(self.sd, 'put' + valueType.capitalize())(key, value)
 
     def get_value(self, key, valueType='value'):

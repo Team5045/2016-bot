@@ -58,7 +58,7 @@ COMPRESSOR_DASHBOARD_KEY = 'editable--boolean--compressor'
 SONAR_PORT = 5  # DIO
 
 # Macros
-# Note - also includes OI_MACRO_ keys
+# Note - subsystem also uses OI_MACRO_ keys
 MACROS_DASHBOARD_KEY = 'editable--chooser--macro'
 
 # Misc
