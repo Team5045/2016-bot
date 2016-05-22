@@ -12,7 +12,8 @@ from wpilib.buttons import JoystickButton, NetworkButton
 from bot import config
 from bot.utils.buttoned_xbox_controller import ButtonedXboxController
 from bot.commands import intake, outtake, shoot, toggle_intake, \
-    toggle_driver_direction, auto_align, record_macro, play_macro
+    toggle_driver_direction, auto_align, record_macro, play_macro, \
+    auto_align_and_shoot
 
 
 class OperatorInterface(object):
@@ -32,10 +33,15 @@ class OperatorInterface(object):
             .whileHeld(outtake.Outtake(self.robot))
 
         JoystickButton(self.drive_controller, config.OI_AUTO_ALIGN) \
-            .toggleWhenPressed(auto_align.AutoAlign(self.robot))
+            .toggleWhenPressed(
+                auto_align.AutoAlign(self.robot,
+                                     start_shooter_when_close=True))
 
         JoystickButton(self.drive_controller, config.OI_SHOOT) \
             .whenReleased(shoot.Shoot(self.robot))
+
+        JoystickButton(self.drive_controller, config.OI_AUTO_ALIGN_AND_SHOOT) \
+            .whenReleased(auto_align_and_shoot.AutoAlignAndShoot(self.robot))
 
         JoystickButton(self.drive_controller, config.OI_TOGGLE_INTAKE) \
             .whenPressed(toggle_intake.ToggleIntake(self.robot))
@@ -56,10 +62,16 @@ class OperatorInterface(object):
             .whileHeld(outtake.Outtake(self.robot))
 
         JoystickButton(self.operator_controller, config.OI_AUTO_ALIGN) \
-            .toggleWhenPressed(auto_align.AutoAlign(self.robot))
+            .toggleWhenPressed(
+                auto_align.AutoAlign(self.robot,
+                                     start_shooter_when_close=True))
 
         JoystickButton(self.operator_controller, config.OI_SHOOT) \
             .whenReleased(shoot.Shoot(self.robot))
+
+        JoystickButton(self.operator_controller,
+                       config.OI_AUTO_ALIGN_AND_SHOOT) \
+            .whenReleased(auto_align_and_shoot.AutoAlignAndShoot(self.robot))
 
         JoystickButton(self.operator_controller, config.OI_TOGGLE_INTAKE) \
             .whenPressed(toggle_intake.ToggleIntake(self.robot))

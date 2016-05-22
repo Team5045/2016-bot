@@ -21,6 +21,7 @@ OI_INTAKE = 'right_trigger'
 OI_OUTTAKE = 'left_trigger'
 OI_SHOOT = 1  # "A" button
 OI_AUTO_ALIGN = 3  # "X" button
+OI_AUTO_ALIGN_AND_SHOOT = 4  # "Y" button
 
 OI_MACRO_TABLE = 'SmartDashboard'
 OI_MACRO_RECORD = 'editable--boolean--record_macro'
